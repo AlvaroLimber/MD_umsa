@@ -1,1 +1,75 @@
 # Pre procesamiento
+
+
+## Importación
+
+```{r}
+rm(list=ls())
+load(url("https://github.com/AlvaroLimber/EST-383/raw/master/data/oct20.RData"))
+```
+
+## Exploración
+
+  + Filas/observaciones: Mesas electorales
+  + Hay información a nivel de mesas según el tipo de elección.
+  + La cobertura espacial: No solo es Bolivia
+
+### Diccionario de variables
+
+```{r}
+dim(computo)
+nrow(computo)
+ncol(computo)
+names(computo)
+str(computo)
+str(computo$País)
+typeof(computo$País)
+```
+
+### Agregación/Niveles
+
+```{r}
+aux<-unique(computo$Elección)
+length(unique(computo$`Código Mesa`))
+library(dplyr)
+#filtrado ctr+alt*M
+bdpv<-computo %>% filter(Elección==aux[1])
+bddu<-computo %>% filter(Elección==aux[2])
+bdde<-computo %>% filter(Elección==aux[3])
+save(bdpv,bddu,bdde,file="bd_elecciones20.RData")
+```
+
+### Descripción univariada
+
+  + Tablas de frecuencia (cualitativas)
+  + Reportes estadísticos; media, sd, etc. (Cuantitativas)
+  + Gráficos (mix)
+
+```{r}
+# Ejercicio: Crear un vector que haga la diferencia entre variables cualitativas y cuantitativas.
+dcuanti<-function(bd){
+  bd<-data.frame(bd)
+  aux<-NULL
+  for(i in 1:ncol(bd)){
+    aux[i]<-is.numeric(bd[,i])
+  }
+  return(aux)
+}
+dcuanti(bdpv)
+
+#typeof(bdpv)
+#str(bdpv)
+
+#bdpv<-data.frame(bdpv)
+#is.numeric(bdpv[,"MNR"])
+#is.numeric(bdpv[,21])
+#is.numeric(bdpv$MNR)
+vcuanti<-names(bdpv)[dcuanti(bdpv)]
+vcuali<-names(bdpv)[!dcuanti(bdpv)]
+library(Hmisc)
+describe(bdpv[,vcuanti])
+describe(bdpv[,vcuali])
+#Tarea: Escribir una función que permita explorar las características de las variables, segùn su naturaleza
+
+
+```
