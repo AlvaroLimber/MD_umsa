@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Pre procesamiento
 
 
@@ -69,7 +74,94 @@ vcuali<-names(bdpv)[!dcuanti(bdpv)]
 library(Hmisc)
 describe(bdpv[,vcuanti])
 describe(bdpv[,vcuali])
-#Tarea: Escribir una función que permita explorar las características de las variables, segùn su naturaleza
+#Tarea: Escribir una función que permita explorar las características de las variables, según su naturaleza
+#cualitativa
+t1<-table(bdpv$Departamento)
+aux1<-as.data.frame(prop.table(t1)*100)#%
+aux2<-as.data.frame(t1)#frecuencias
+names(aux1)[2]<-"Porcentaje"
+tt1<-merge(aux1,aux2)#unir base de datos
+head(tt1)
+library(dplyr)#Gramática de datos
 
+bdpv %>% group_by(Departamento) %>% count() 
 
+tt1<-bdpv %>% group_by(Departamento) %>% summarise(Freq=n()) %>% mutate(Porcentaje=(Freq/sum(Freq))*100)
+library(ggplot2)# gramàtica de gràficos
+ggplot(bdpv,aes(Departamento))+geom_bar()
+
+tt1
+
+ggplot(tt1[1:10,],aes(Departamento,Porcentaje))+geom_bar(stat="identity")
+
+ggplot(tt1 %>% filter(Porcentaje>1),aes(Departamento,Porcentaje))+geom_bar(stat="identity")
+
+#cuantitativas
+mean(bdpv$Blancos)
+median(bdpv$Blancos)
+summary(bdpv$Blancos)
+sd(bdpv$Blancos)
+sd(bdpv$Blancos)/mean(bdpv$Blancos)
+quantile(bdpv$Blancos,seq(0,1,0.1))
+quantile(bdpv$Blancos,seq(0,1,0.05))
+hist(bdpv$Blancos)
+plot(density(bdpv$Blancos))
+boxplot(bdpv$Blancos)
+
+boxplot(log(bdpv$Blancos))
+plot(density(log(bdpv$Blancos)))
 ```
+
+
+## Relaciones entre 2 variables 
+  * Cuali vs cuali
+  * Cuanti vs cuanti
+  * Cuali vs cuanti
+  
+```{r}
+rm(list=ls())
+load(url("https://github.com/AlvaroLimber/EST-384/raw/master/data/eh19.RData"))
+#cuali vs cuali
+eh19p$s02a_02#sexo
+eh19p$p0#pobreza monetaria moderada
+
+t2<-table(eh19p$s02a_02,eh19p$p0)
+t2
+prop.table(t2)
+prop.table(t2,1)
+prop.table(t2,2)
+chisq.test(t2)# H0: Independencia
+plot(eh19p$s02a_02,eh19p$p0)
+plot(eh19p$area,eh19p$p0)
+plot(eh19p$niv_ed,eh19p$p0)
+
+chisq.test(table(eh19p$niv_ed,eh19p$p0))
+```
+
+### Cuanti vs Cuanti
+
+```{r}
+eh19p$s02a_03#edad
+eh19p$aestudio# años de educación
+eh19p$ylab# ingreso laboral
+
+cor(eh19p[,c("s02a_03","aestudio","ylab")],use="complete.obs")
+cor(eh19p[,c("s02a_03","aestudio","ylab")],use="pairwise.complete.obs")
+
+nrow(na.omit(eh19p[,c("s02a_03","aestudio","ylab")]))
+nrow(na.omit(eh19p[,c("s02a_03","aestudio")]))
+
+library(GGally)
+
+ggpairs(eh19p,columns = c("s02a_03","aestudio","ylab"))
+
+ggpairs(eh19p,columns = c("s02a_02","aestudio","ylab","p0"))
+```
+
+
+
+  
+
+
+
+
