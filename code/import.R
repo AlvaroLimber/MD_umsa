@@ -1,0 +1,23 @@
+rm(list=ls())
+library(haven)
+#CENSUS
+setwd("/Volumes/GoogleDrive-101981948668106836542/My Drive/MD_umsa/cs12")
+cs12d<-read_dta("DBdiscapacidad2012vf_9.dta")
+cs12e<-read_dta("DBemigracion2012vf_9.dta")
+cs12m<-read_dta("DBmortalidad2012vf_9.dta")
+cs12p<-read_dta("DBpersonas2012vf_9.dta")
+cs12v<-read_dta("DBvivienda2012vf_9.dta")
+#EH2021
+setwd("/Volumes/GoogleDrive-101981948668106836542/My Drive/MD_umsa/eh2021")
+eh21df<-read_sav("EH2021_Defunciones.sav",encoding = "latin1")
+eh21di<-read_sav("EH2021_Discriminacion.sav",encoding = "latin1")
+eh21eq<-read_sav("EH2021_Equipamiento.sav",encoding = "latin1")
+eh21ga<-read_sav("EH2021_Gastos Alimentarios.sav",encoding = "latin1")
+eh21gna<-read_sav("EH2021_Gastos no Alimentarios.sav",encoding = "latin1")
+eh21p<-read_sav("EH2021_Persona.sav",encoding = "latin1")
+eh21sa<-read_sav("EH2021_Seguridad Alimentaria.sav",encoding = "latin1")
+eh21v<-read_sav("EH2021_Vivienda.sav",encoding = "latin1")
+
+setwd("/Users/alvarolimber/Documents/GitHub/MD_umsa/data")
+save(cs12d,cs12e,cs12m,cs12p,cs12v,file = "cs12_pd.RData")
+save(eh21p,eh21v,eh21di,eh21eq,file = "eh21.RData")
