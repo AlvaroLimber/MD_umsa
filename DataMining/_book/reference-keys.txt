@@ -16,3 +16,5 @@ exploración
 diccionario-de-variables
 agregaciónniveles
 descripción-univariada
+relaciones-entre-2-variables
+cuanti-vs-cuanti
