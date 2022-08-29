@@ -23,7 +23,7 @@
 <meta name="author" content="MSc. Alvaro Limber Chirino Gutierrez" />
 
 
-<meta name="date" content="2022-08-23" />
+<meta name="date" content="2022-08-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -197,6 +197,27 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.3.1" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#cuanti-vs-cuanti"><i class="fa fa-check"></i><b>2.3.1</b> Cuanti vs Cuanti</a></li>
 </ul></li>
+<li class="chapter" data-level="2.4" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#filtrado-y-selección"><i class="fa fa-check"></i><b>2.4</b> Filtrado y selección</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#selecciónfiltrado-de-observaciones-filas"><i class="fa fa-check"></i><b>2.4.1</b> Selección/filtrado de observaciones (filas)</a></li>
+<li class="chapter" data-level="2.4.2" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#selección-de-variables-columnas"><i class="fa fa-check"></i><b>2.4.2</b> Selección de variables (columnas)</a></li>
+<li class="chapter" data-level="2.4.3" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#pivot-reshape"><i class="fa fa-check"></i><b>2.4.3</b> Pivot, Reshape</a></li>
+<li class="chapter" data-level="2.4.4" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#uniendo-bases-de-datos"><i class="fa fa-check"></i><b>2.4.4</b> Uniendo bases de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#muestreo-estimación-error-estándar-y-confiabilidad"><i class="fa fa-check"></i><b>2.5</b> Muestreo, estimación, error estándar y confiabilidad</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#diseño-muestral"><i class="fa fa-check"></i><b>2.5.1</b> Diseño muestral</a></li>
+<li class="chapter" data-level="2.5.2" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#estimación"><i class="fa fa-check"></i><b>2.5.2</b> Estimación</a></li>
+<li class="chapter" data-level="2.5.3" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#rendimiento"><i class="fa fa-check"></i><b>2.5.3</b> Rendimiento</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#transformación"><i class="fa fa-check"></i><b>2.6</b> Transformación</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#adecuación-de-formatos"><i class="fa fa-check"></i><b>2.6.1</b> Adecuación de formatos</a></li>
+<li class="chapter" data-level="2.6.2" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#limpieza-de-texto"><i class="fa fa-check"></i><b>2.6.2</b> Limpieza de texto</a></li>
+<li class="chapter" data-level="2.6.3" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#creación-de-variables"><i class="fa fa-check"></i><b>2.6.3</b> Creación de variables</a></li>
+<li class="chapter" data-level="2.6.4" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#valores-atípicos"><i class="fa fa-check"></i><b>2.6.4</b> Valores atípicos</a></li>
+<li class="chapter" data-level="2.6.5" data-path="pre-procesamiento.html"><a href="pre-procesamiento.html#valores-perdidos"><i class="fa fa-check"></i><b>2.6.5</b> Valores perdidos</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -219,7 +240,7 @@ div.csl-indent {
 <h1 class="title">Minería de datos</h1>
 <h2 class="subtitle"><em>Aplicaciones en R con bases de datos de Bolivia</em></h2>
 <p class="author"><em>MSc. Alvaro Limber Chirino Gutierrez</em></p>
-<p class="date"><em>2022-08-23</em></p>
+<p class="date"><em>2022-08-29</em></p>
 </div>
 <div id="prefacio" class="section level1 unnumbered hasAnchor">
 <h1>Prefacio<a href="index.html#prefacio" class="anchor-section" aria-label="Anchor link to header"></a></h1>
@@ -250,58 +271,100 @@ div.csl-indent {
 ## LAPACK: /usr/lib/x86_64-linux-gnu/atlas/liblapack.so.3.10.3
 ## 
 ## locale:
-##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C          
-##  [3] LC_TIME=C.UTF-8        LC_COLLATE=C.UTF-8    
-##  [5] LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
-##  [7] LC_PAPER=C.UTF-8       LC_NAME=C             
-##  [9] LC_ADDRESS=C           LC_TELEPHONE=C        
-## [11] LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+##  [1] LC_CTYPE=C.UTF-8      
+##  [2] LC_NUMERIC=C          
+##  [3] LC_TIME=C.UTF-8       
+##  [4] LC_COLLATE=C.UTF-8    
+##  [5] LC_MONETARY=C.UTF-8   
+##  [6] LC_MESSAGES=C.UTF-8   
+##  [7] LC_PAPER=C.UTF-8      
+##  [8] LC_NAME=C             
+##  [9] LC_ADDRESS=C          
+## [10] LC_TELEPHONE=C        
+## [11] LC_MEASUREMENT=C.UTF-8
+## [12] LC_IDENTIFICATION=C   
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets 
-## [6] methods   base     
+## [1] stats     graphics  grDevices
+## [4] utils     datasets  methods  
+## [7] base     
 ## 
 ## other attached packages:
-##  [1] GGally_2.1.2    Hmisc_4.7-1     ggplot2_3.3.6  
-##  [4] Formula_1.2-4   survival_3.3-1  lattice_0.20-45
-##  [7] mice_3.14.0     dplyr_1.0.9     rvest_1.0.2    
-## [10] stringi_1.7.8   tm_0.7-8        NLP_0.2-1      
+##  [1] GGally_2.1.2    Hmisc_4.7-1    
+##  [3] ggplot2_3.3.6   Formula_1.2-4  
+##  [5] survival_3.3-1  lattice_0.20-45
+##  [7] mice_3.14.0     dplyr_1.0.9    
+##  [9] rvest_1.0.2     stringi_1.7.8  
+## [11] tm_0.7-8        NLP_0.2-1      
 ## [13] lubridate_1.8.0 tidyr_1.2.0    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] httr_1.4.3          sass_0.4.2         
-##  [3] jsonlite_1.8.0      splines_4.2.1      
-##  [5] bslib_0.4.0         highr_0.9          
-##  [7] latticeExtra_0.6-30 yaml_2.3.5         
-##  [9] slam_0.1-50         pillar_1.8.0       
-## [11] backports_1.4.1     glue_1.6.2         
-## [13] digest_0.6.29       RColorBrewer_1.1-3 
-## [15] checkmate_2.1.0     colorspace_2.0-3   
-## [17] htmltools_0.5.3     Matrix_1.4-1       
-## [19] plyr_1.8.7          pkgconfig_2.0.3    
-## [21] broom_1.0.0         bookdown_0.28      
-## [23] purrr_0.3.4         scales_1.2.0       
-## [25] jpeg_0.1-9          htmlTable_2.4.1    
-## [27] tibble_3.1.8        generics_0.1.3     
-## [29] cachem_1.0.6        withr_2.5.0        
-## [31] nnet_7.3-17         cli_3.3.0          
-## [33] magrittr_2.0.3      deldir_1.0-6       
-## [35] evaluate_0.16       fansi_1.0.3        
-## [37] xml2_1.3.3          foreign_0.8-82     
-## [39] tools_4.2.1         data.table_1.14.2  
-## [41] lifecycle_1.0.1     stringr_1.4.0      
-## [43] interp_1.1-3        munsell_0.5.0      
-## [45] cluster_2.1.3       compiler_4.2.1     
-## [47] jquerylib_0.1.4     rlang_1.0.4        
-## [49] grid_4.2.1          rstudioapi_0.13    
-## [51] htmlwidgets_1.5.4   base64enc_0.1-3    
-## [53] rmarkdown_2.14      gtable_0.3.0       
-## [55] reshape_0.8.9       R6_2.5.1           
-## [57] gridExtra_2.3       knitr_1.39         
-## [59] fastmap_1.1.0       utf8_1.2.2         
-## [61] parallel_4.2.1      Rcpp_1.0.9         
-## [63] vctrs_0.4.1         rpart_4.1.16       
-## [65] png_0.1-7           tidyselect_1.1.2   
+##  [1] httr_1.4.3         
+##  [2] sass_0.4.2         
+##  [3] jsonlite_1.8.0     
+##  [4] splines_4.2.1      
+##  [5] bslib_0.4.0        
+##  [6] highr_0.9          
+##  [7] latticeExtra_0.6-30
+##  [8] yaml_2.3.5         
+##  [9] slam_0.1-50        
+## [10] pillar_1.8.0       
+## [11] backports_1.4.1    
+## [12] glue_1.6.2         
+## [13] digest_0.6.29      
+## [14] RColorBrewer_1.1-3 
+## [15] checkmate_2.1.0    
+## [16] colorspace_2.0-3   
+## [17] htmltools_0.5.3    
+## [18] Matrix_1.4-1       
+## [19] plyr_1.8.7         
+## [20] pkgconfig_2.0.3    
+## [21] broom_1.0.0        
+## [22] bookdown_0.28      
+## [23] purrr_0.3.4        
+## [24] scales_1.2.0       
+## [25] jpeg_0.1-9         
+## [26] htmlTable_2.4.1    
+## [27] tibble_3.1.8       
+## [28] generics_0.1.3     
+## [29] cachem_1.0.6       
+## [30] withr_2.5.0        
+## [31] nnet_7.3-17        
+## [32] cli_3.3.0          
+## [33] magrittr_2.0.3     
+## [34] deldir_1.0-6       
+## [35] evaluate_0.16      
+## [36] fansi_1.0.3        
+## [37] xml2_1.3.3         
+## [38] foreign_0.8-82     
+## [39] tools_4.2.1        
+## [40] data.table_1.14.2  
+## [41] lifecycle_1.0.1    
+## [42] stringr_1.4.0      
+## [43] interp_1.1-3       
+## [44] munsell_0.5.0      
+## [45] cluster_2.1.3      
+## [46] compiler_4.2.1     
+## [47] jquerylib_0.1.4    
+## [48] rlang_1.0.4        
+## [49] grid_4.2.1         
+## [50] rstudioapi_0.13    
+## [51] htmlwidgets_1.5.4  
+## [52] base64enc_0.1-3    
+## [53] rmarkdown_2.14     
+## [54] gtable_0.3.0       
+## [55] reshape_0.8.9      
+## [56] R6_2.5.1           
+## [57] gridExtra_2.3      
+## [58] knitr_1.39         
+## [59] fastmap_1.1.0      
+## [60] utf8_1.2.2         
+## [61] parallel_4.2.1     
+## [62] Rcpp_1.0.9         
+## [63] vctrs_0.4.1        
+## [64] rpart_4.1.16       
+## [65] png_0.1-7          
+## [66] tidyselect_1.1.2   
 ## [67] xfun_0.32</code></pre>
 </div>
 <div id="datos" class="section level2 unnumbered hasAnchor">

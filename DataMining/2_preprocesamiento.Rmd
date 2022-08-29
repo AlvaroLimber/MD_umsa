@@ -5,10 +5,35 @@ editor_options:
 ---
 # Pre procesamiento
 
+  - Recopilación
+  - Importación
+  - Exploración
+    * Diccionario de variables
+    * Niveles de agregación
+    * Descripción univariada 
+    * Identificando relaciones
+    * Aproximación Visual (Visualización)
+  - Filtrado y selección
+    * Filtrado de observaciones
+    * Selección de variables
+    * Pivot, Reshape
+    * Uniendo bases de datos
+  - Muestreo, estimación, error estándar y confiabilidad
+    * Diseño muestral
+    * Estimación
+    * Rendimiento
+  - Transformación
+    * Adecuación de formatos
+    * Limpieza de texto
+    * Creación de variables
+    * Valores atípicos
+    * Valores perdidos
 
 ## Importación
 
 ```{r}
+#bookdown::clean_book(TRUE)
+#bookdown::render_book("index.Rmd", "bookdown::gitbook")
 rm(list=ls())
 load(url("https://github.com/AlvaroLimber/EST-383/raw/master/data/oct20.RData"))
 ```
@@ -112,7 +137,6 @@ boxplot(log(bdpv$Blancos))
 plot(density(log(bdpv$Blancos)))
 ```
 
-
 ## Relaciones entre 2 variables 
   * Cuali vs cuali
   * Cuanti vs cuanti
@@ -122,8 +146,8 @@ plot(density(log(bdpv$Blancos)))
 rm(list=ls())
 load(url("https://github.com/AlvaroLimber/EST-384/raw/master/data/eh19.RData"))
 #cuali vs cuali
-eh19p$s02a_02#sexo
-eh19p$p0#pobreza monetaria moderada
+#eh19p$s02a_02#sexo
+#eh19p$p0#pobreza monetaria moderada
 
 t2<-table(eh19p$s02a_02,eh19p$p0)
 t2
@@ -141,9 +165,9 @@ chisq.test(table(eh19p$niv_ed,eh19p$p0))
 ### Cuanti vs Cuanti
 
 ```{r}
-eh19p$s02a_03#edad
-eh19p$aestudio# años de educación
-eh19p$ylab# ingreso laboral
+#eh19p$s02a_03#edad
+#eh19p$aestudio# años de educación
+#eh19p$ylab# ingreso laboral
 
 cor(eh19p[,c("s02a_03","aestudio","ylab")],use="complete.obs")
 cor(eh19p[,c("s02a_03","aestudio","ylab")],use="pairwise.complete.obs")
@@ -158,10 +182,84 @@ ggpairs(eh19p,columns = c("s02a_03","aestudio","ylab"))
 ggpairs(eh19p,columns = c("s02a_02","aestudio","ylab","p0"))
 ```
 
+## Filtrado y selección
 
+Es el proceso que reduce la base de datos a la **población objetivo** y especifíca las **variables** a utilizar en el **modelado** posterior. Además de incorporar otras variables provenientes de otras bases de datos si es necesario.
 
-  
+Por ejemplo:
 
+  * Para los resultados electorales de 2020 presidente y vicepresidente: Se quiere estudiar el comportamiento de votos Nulos y Blancos para el departamento de Tarija
+  * Para la encuesta a hogares 2019, se quiere estudiar los años de educación, condición de pobreza moderada, edad e ingreso laboral de las jefas de hogar.
 
+### Selección/filtrado de observaciones (filas)
 
+El objetivo en este punto es trabajar sobre la unidad de análisis, que define a la población objetivo.
 
+Ejercicio: obtener la base de datos filtrada de los ejemplos anteriores. 
+
+```{r}
+rm(list = ls())
+library(dplyr)
+#electoral
+load("/cloud/project/DataMining/bd_elecciones20.RData")
+unique(bdpv$Departamento)
+bdtj<-bdpv %>% filter(Departamento=="Tarija")
+#eh 2019
+load(url("https://github.com/AlvaroLimber/EST-384/raw/master/data/eh19.RData"))
+
+aux<-unique(eh19p$s02a_02)
+aux[2]
+relacion<-unique(eh19p$s02a_05)
+
+ehjm<-eh19p %>% filter(s02a_02==aux[2] & s02a_05==relacion[1])
+```
+
+Ejercicio
+
+Obtener una base de datos de la EH19 que incluya solamente a los suegros, padres y otros parientes.
+
+```{r}
+relacion[c(4,8,10)]
+ehmis<-eh19p %>% filter(s02a_05 %in% relacion[c(4,8,10)])
+```
+
+Ejemplo, se quiere estudiar la bd electoral para presidente en todas las mesas, excepto las de Tarija.
+
+```{r}
+bdntj<-bdpv %>% filter(Departamento!="Tarija")
+```
+
+### Selección de variables (columnas)
+
+El objetivo es trabajar únicamente con las variables necesarias para el estudio, es decir, las que se utilizaran en el modelado posterior.
+
+Ejemplo, realizar la selección de variables para los ejemplos anteriores:
+
+```{r}
+# Para los resultados electorales de 2020 presidente y vicepresidente: Se quiere estudiar el comportamiento de votos Nulos y Blancos para el departamento de Tarija
+names(bdpv)
+bdtj<-bdpv %>% filter(Departamento=="Tarija") %>% select(Blancos,Nulos,`Votos Válidos`,Provincia,Municipio,Recinto)
+object.size(bdpv)
+object.size(bdtj)
+
+#Para la encuesta a hogares 2019, se quiere estudiar los años de educación, condición de pobreza moderada, edad e ingreso laboral de las jefas de hogar.
+ateh<-attributes(eh19p)
+ehjm<-eh19p %>% filter(s02a_02==aux[2] & s02a_05==relacion[1]) %>% select(aestudio,p0,s02a_03,ylab,folio,nro,factor,estrato, upm)
+#eh19p %>% select(-folio)
+#eh19p %>% select(-c(folio,area))
+#eh19p %>% select(1:5) # primeras 5 variables
+#eh19p %>% select(z:pext2)  
+```
+
+### Pivot, Reshape
+### Uniendo bases de datos
+## Muestreo, estimación, error estándar y confiabilidad
+### Diseño muestral
+### Estimación
+### Rendimiento
+## Transformación
+### Adecuación de formatos
+### Limpieza de texto
+### Creación de variables
+### Valores atípicos
+### Valores perdidos
