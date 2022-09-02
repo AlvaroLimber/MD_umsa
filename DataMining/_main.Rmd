@@ -1,3 +1,143 @@
+--- 
+title: "Minería de datos"
+subtitle: "Aplicaciones en R con bases de datos de Bolivia"
+author: "MSc. Alvaro Limber Chirino Gutierrez"
+description: "Este texto esta destinado a estudiantes de la carrera de Estadística de la Universidad Mayor de San Andres."
+date: "`r Sys.Date()`"
+delete_merged_file: true
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+graphics: yes
+github-repo: alvarolimber/MD_umsa
+bibliography: book.bib
+nocite: '@*'
+pandoc_args: ["-Fpandoc-crossref"]
+---
+# Prefacio {-}
+
+```{r fig.align='center', echo=FALSE, include=identical(knitr:::pandoc_to(), 'html'), fig.link='https://www.crcpress.com/product/isbn/9781138700109'}
+knitr::include_graphics('images/cover.png', dpi = NA)
+```
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Este documento de [Alvaro Chirino](https://twiiter/alvarochirinog) esta bajo la licencia de <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+## Audiencia  {-}
+
+El libro fue diseñado originalmente para estudiantes de la carrera de Estadística de la Universidad Mayor de San Andrés.
+
+Este documento representa un primer acercamiento a los estudiantes de estadística  al software R y al mundo de la minería de datos.
+
+## Estructura del libro  {-}
+
+El libro incluye los siguientes capítulos:
+
+1. Introducción a la minería de datos
+2. Pre procesamiento
+
+## Software y acuerdos {-}
+
+```{r}
+sessionInfo()
+```
+
+## Datos {-}
+
+
+## Agradecimiento  {-}
+
+Peeta...
+
+# Acerca del autor {-}
+
+## Bibliografía {-}
+
+
+<!--chapter:end:index.Rmd-->
+
+# Minería de Datos
+
+## Motivación para la Minería de datos
+
+  * (Variedad) Los métodos de recolección de datos han evolucionado muy rápidamente.
+  * (Volumen) Las bases de datos han crecido exponencialmente
+  * (Usuarios) Estos datos contienen información útil para las empresas, países, etc.
+  * (Tecnología) El tamaño hace que la inspección manual sea casi imposible
+  * (Método) Se requieren métodos de análisis de datos automáticos para optimizar el uso de estos enormes conjuntos de datos
+
+## ¿Qué es la minería de datos?
+
+Es el análisis de **conjuntos de datos** (a menudo grandes) para encontrar **relaciones insospechadas** (conocimiento) y resumir los datos de **formas novedosas** que sean **comprensibles y útiles** para el propietario/usuario de los datos.
+
+<p style='text-align: right;'> Principles of Data Mining (Hand et.al. 2001) </p>
+
+## Datos y conocimiento (Insumo/Resultado)
+
+### Datos:
+
+  * se refieren a instancias únicas y primitivas (single objetos, personas, eventos, puntos en el tiempo, etc.)
+  * describir propiedades individuales
+  * a menudo son fáciles de recolectar u obtener (por ejemplo, cajeros de escáner, internet, etc.)
+  * no nos permiten hacer predicciones o pronósticos
+
+Ejercicio:
+
+Elija un sector/área y describa los potenciales datos que se tienen disponibles
+
+  - (R) Salud (Hospital): Registros de pacientes, medicamentos, vacunas, fichas epidemiológicas, personal médico, consultorios (infraestructura), financiera
+  - (R) (Seguridad) Feminicidios: Casos, lugar, entorno familiar, denuncias previas, sospechosos, información forense, Caracterizar al culpable  
+  - (A) Banca: Prestamos; ingresos, laboral. Caja de ahorro; personal, movimientos. Cajas; Servicios, etc. Cajeros; Lugar, movimientos. Clientes; Prestamistas; Deuda, mora, juicio, ahorristas. Base de datos de patrimonio 
+  - (B) Geografía: Clima; Lluvia, Minas; tipo, trabajadores, cultivos; tipo, temporada, tipo suelo, montañas, pluvial, temperatura. 
+
+### Conocimiento:
+
+  * (Características) se refiere a clases de instancias (conjuntos de ...)
+  * (Forma) describe patrones generales, estructuras, leyes,
+  * (Declaración) consta de la menor cantidad de declaraciones posibles
+  * (Proceso) a menudo es difícil y lleva mucho tiempo encontrar u obtener
+  * (Acciones) nos permite hacer predicciones y pronósticos
+
+Ejercicio:
+
+  * Agrupar la tipología de los pacientes; Mejorar servicio, acciones
+  * Determinantes del feminicidio; SLIM, medidas 
+  * Relación el monto del ingreso con el motivo de préstamo; Realizar ofertas, promocionar a clientes.
+  * Relación entre el clima y los cultivos, dado el tipo de mineral se puede pensar en un mercado posterior
+
+## Requerimientos
+
+  * Disponibilidad para aprender 
+  * Mucha paciencia
+    - Interactúa con otras áreas
+    - Preprocesamiento de datos 
+  * Creatividad
+  * Rigor, prueba y error
+
+## knowledge discovery in databases (KDD)
+
+![](images/f1.png)
+
+## Preparación de los datos
+
+### Recopilación
+
+* Instituto de Estadística 
+* UDAPE, ASFI 
+* Ministerio Salud (SNIS), Ministerio de educación (SIE)
+* APIs, Twitter, Facebook, etc.
+* Kaggle
+* Banco Mundial, UNICEF, FAO, BID (Open Data)
+
+### Data Warehouse
+
+![](images/dataware.png)
+
+### Data Warehouse in R
+
+![](images/rdata.png)
+
+<!--chapter:end:1_introMD.Rmd-->
+
 ---
 output: html_document
 editor_options: 
@@ -414,3 +554,6 @@ eh21p %>% filter(factor>1306) %>% group_by(area,depto,estrato,p0) %>% summarise(
 ### Creación de variables
 ### Valores atípicos
 ### Valores perdidos
+
+<!--chapter:end:2_preprocesamiento.Rmd-->
+
